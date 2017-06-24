@@ -41,6 +41,8 @@ command -v nuget >/dev/null 2>&1 || {
     echo "DONE"
 }
 
+bash init-tools.sh
+
 cd src
 echo -n "Restoring packages... "
 
@@ -59,11 +61,11 @@ echo "DONE"
 cd ../bin/CodeFormatter/Debug
 mkdir -p /opt/code-formatter
 echo -n "Copying build arifacts to /opt/code-formatter... "
-cp * /opt/code-formatter
+cp -r * /opt/code-formatter
 echo "DONE"
 
 echo -n "Creating executable 'code-formatter' in /usr/bin... "
-echo -e "#!/bin/bash\nmono /opt/code-formatter/CodeFormatter.exe" > /usr/bin/code-formatter
+echo -e "#!/bin/bash\nmono /opt/code-formatter/CodeFormatter.exe \"\$@\"" > /usr/bin/code-formatter
 chmod +x /usr/bin/code-formatter
 echo "DONE"
 
